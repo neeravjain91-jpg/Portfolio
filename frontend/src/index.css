@@ -1,0 +1,37 @@
+/* CONTACT FORM LAYOUT */
+form {
+    display: flex;
+    flex-direction: column; /* Forces elements to stack vertically */
+    max-width: 500px;       /* Keeps the form from stretching too wide */
+    gap: 15px;              /* Creates clean spacing between every input box */
+    margin-top: 20px;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: #1e293b;    /* Matches your skill cards background */
+    border: 1px solid #334155; /* Subtle dark border */
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Highlight the box when the user clicks inside it */
+form input:focus, form textarea:focus {
+    border-color: #38bdf8;  /* Electric blue highlight */
+}
+
+form textarea {
+    min-height: 120px;      /* Gives the user plenty of room to write */
+    resize: vertical;       /* Allows resizing only vertically so it won't break layout widths */
+}
+
+/* Keeps the submit button looking clean and neat within the stack */
+form .btn {
+    width: fit-content;     /* Stops the button from stretching to full width */
+    padding: 12px 30px;
+    margin-top: 5px;
+}
