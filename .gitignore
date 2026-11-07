@@ -1,7 +1,47 @@
-backend/node_modules/
-frontend/node_modules/
-node_modules/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
+# testing
+/coverage
+
+# next.js build output
+/.next/
+/out/
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# environment variables & secrets
 .env
-dist/
-build/
+.env*.local
+.env.production
+.env.development
+*.pem
+*.key
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# os & ide
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# audit & temporary scripts data
+scripts/
+audit_data/
+*.py
+repos.json
+audit_results.json
+full_readmes.json
+temp_*
