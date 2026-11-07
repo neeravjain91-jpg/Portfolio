@@ -45,3 +45,5 @@ repos.json
 audit_results.json
 full_readmes.json
 temp_*
+
+.vercel
