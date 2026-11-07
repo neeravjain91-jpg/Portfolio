@@ -40,13 +40,22 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             </h3>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="/Neerav_Jain_Resume.pdf"
+              download="Neerav_Jain_Resume.pdf"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-black bg-cyan-400 hover:bg-cyan-300 rounded-md transition-colors shadow-sm"
+              title="Download ATS-friendly 1-Page PDF"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download PDF</span>
+            </a>
             <button
               onClick={handlePrint}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 rounded-md transition-colors"
               title="Print or Save as PDF"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>Print / Save PDF</span>
+              <span>Print</span>
             </button>
             <button
               onClick={onClose}
@@ -90,7 +99,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                 <Github className="w-3.5 h-3.5 text-cyan-400" />
                 <span>github.com/neeravjain91-jpg</span>
               </a>
-              <span className="text-emerald-400">5+ Live Deployments Verified</span>
+              <span className="text-emerald-400">5+ Verified Live Deployments</span>
             </div>
           </div>
 
@@ -178,7 +187,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               Flagship Engineering & Research Projects
             </h2>
             <div className="space-y-5">
-              {FEATURED_PROJECTS.slice(0, 4).map((p) => (
+              {FEATURED_PROJECTS.slice(0, 5).map((p) => (
                 <div key={p.id} className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
                     <span className="font-bold text-white text-sm flex items-center gap-2">
@@ -229,10 +238,17 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               {PROFILE_DATA.skillCategories.map((cat) => (
-                <div key={cat.title} className="p-3 rounded-lg bg-black/30 border border-white/5">
-                  <div className="font-semibold text-slate-200 mb-1">{cat.title}</div>
-                  <div className="text-[11px] text-slate-400">
-                    {cat.skills.map((s) => s.name).join(", ")}
+                <div key={cat.title} className="p-3.5 rounded-lg bg-black/30 border border-white/5 space-y-1.5">
+                  <div className="font-semibold text-slate-200">{cat.title}</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {cat.skills.map((s) => (
+                      <span
+                        key={s.name}
+                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5"
+                      >
+                        {s.name}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -243,12 +259,22 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
         {/* Modal Footer */}
         <div className="px-6 py-4 border-t border-white/10 bg-[#080b11] flex items-center justify-between text-xs text-slate-400">
           <span>Authoritative developer CV • Neerav Jain</span>
-          <button
-            onClick={onClose}
-            className="px-4 py-1.5 rounded-md text-xs font-semibold text-white bg-white/[0.08] hover:bg-white/[0.15] transition-colors"
-          >
-            Close
-          </button>
+          <div className="flex items-center gap-3">
+            <a
+              href="/Neerav_Jain_Resume.pdf"
+              download="Neerav_Jain_Resume.pdf"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold text-black bg-cyan-400 hover:bg-cyan-300 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download PDF</span>
+            </a>
+            <button
+              onClick={onClose}
+              className="px-4 py-1.5 rounded-md text-xs font-semibold text-white bg-white/[0.08] hover:bg-white/[0.15] transition-colors"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>

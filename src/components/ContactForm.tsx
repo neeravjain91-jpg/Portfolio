@@ -1,101 +1,75 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { CheckCircle2, Inbox, Mail, Send, Sparkles, Terminal } from "lucide-react";
-import { AdminInboxModal, ContactMessage } from "./AdminInboxModal";
-
-const SEED_MESSAGES: ContactMessage[] = [
-  {
-    id: "msg-welcome-001",
-    name: "Dr. K. Swaminathan (Advisory)",
-    email: "advisory@ocean-research-consortium.org",
-    subject: "Subsurface Ocean B8 Network Verification Protocol",
-    message:
-      "Impressive work on the B8 Spatiotemporal Embedding Network. The 0.9800 °C column-averaged test RMSE against the independent Argo CTD holdout and the 22.11% error reduction over daily climatology demonstrates sound experimental design. Would love to discuss applying this framework to the Bay of Bengal cyclonic thermocline variations.",
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    read: true,
-  },
-  {
-    id: "msg-welcome-002",
-    name: "Engineering Recruiter",
-    email: "talent@aerospace-intelligence.io",
-    subject: "MALE-UAV Engine Digital Twin Architecture",
-    message:
-      "We reviewed your AeroPulse-X project and your 308-test passing suite for the Rotax 914 thermodynamic digital twin. Your peer cross-sensor veto logic and real-time WebGL GCS dashboard match our autonomous systems engineering requirements closely.",
-    createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
-    read: true,
-  },
-];
+import React, { useState } from "react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Mail,
+  Send,
+  Terminal,
+} from "lucide-react";
 
 export const ContactForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [honeypot, setHoneypot] = useState(""); // Anti-bot honeypot
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [messages, setMessages] = useState<ContactMessage[]>([]);
-  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Initialize messages from localStorage
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("neerav_portfolio_messages");
-      if (stored) {
-        setMessages(JSON.parse(stored));
-      } else {
-        localStorage.setItem("neerav_portfolio_messages", JSON.stringify(SEED_MESSAGES));
-        setMessages(SEED_MESSAGES);
-      }
-    } catch (e) {
-      console.warn("localStorage unavailable:", e);
-      setMessages(SEED_MESSAGES);
-    }
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) return;
+    setErrorMessage(null);
+
+    // Client-side quick check
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setErrorMessage("Please complete all required fields.");
+      return;
+    }
 
     setIsSubmitting(true);
 
-    const newMessage: ContactMessage = {
-      id: "msg-" + Date.now(),
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim() || "General Engineering Inquiry",
-      message: message.trim(),
-      createdAt: new Date().toISOString(),
-      read: false,
-    };
-
-    const updated = [newMessage, ...messages];
-    setMessages(updated);
     try {
-      localStorage.setItem("neerav_portfolio_messages", JSON.stringify(updated));
-    } catch (err) {
-      console.error("Failed to save message to localStorage:", err);
-    }
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          subject: subject.trim(),
+          message: message.trim(),
+          honeypot: honeypot.trim(),
+        }),
+      });
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(
+          data.error || "Unable to deliver message. Please contact neeravjain91@gmail.com directly."
+        );
+      }
+
+      // Successful server-side delivery
       setIsSuccess(true);
       setName("");
       setEmail("");
       setSubject("");
       setMessage("");
-    }, 600);
-  };
-
-  const handleDeleteMessage = (id: string) => {
-    const updated = messages.filter((m) => m.id !== id);
-    setMessages(updated);
-    localStorage.setItem("neerav_portfolio_messages", JSON.stringify(updated));
-  };
-
-  const handleClearAll = () => {
-    setMessages([]);
-    localStorage.removeItem("neerav_portfolio_messages");
+      setHoneypot("");
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setErrorMessage(
+        err.message ||
+          "Failed to deliver message via email provider. Please contact neeravjain91@gmail.com directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -128,7 +102,9 @@ export const ContactForm: React.FC = () => {
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-slate-500 font-mono uppercase">Direct Email</div>
+                  <div className="text-[10px] text-slate-500 font-mono uppercase">
+                    Direct Email
+                  </div>
                   <a
                     href="mailto:neeravjain91@gmail.com"
                     className="font-medium text-white hover:text-cyan-400 transition-colors"
@@ -143,7 +119,9 @@ export const ContactForm: React.FC = () => {
                   <Terminal className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-slate-500 font-mono uppercase">GitHub Profile</div>
+                  <div className="text-[10px] text-slate-500 font-mono uppercase">
+                    GitHub Profile
+                  </div>
                   <a
                     href="https://github.com/neeravjain91-jpg"
                     target="_blank"
@@ -156,22 +134,16 @@ export const ContactForm: React.FC = () => {
               </div>
             </div>
 
-            {/* Admin Inbox Toggle (Preserving existing portfolio feature) */}
-            <div className="pt-4 border-t border-white/10">
-              <div className="text-[11px] text-slate-400 mb-2">
-                Preserved from original portfolio repository:
+            <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1.5 text-xs">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                Email Dispatch Protocol
               </div>
-              <button
-                type="button"
-                onClick={() => setShowAdminModal(true)}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-200 bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 transition-all hover:border-cyan-500/30 group"
-              >
-                <Inbox className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                <span>View Received Messages (Admin Panel)</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300">
-                  {messages.length}
-                </span>
-              </button>
+              <p className="text-slate-400 text-[11px] leading-relaxed">
+                Messages submitted here are dispatched via a server-side API handler
+                utilizing Resend directly to{" "}
+                <span className="text-slate-200 font-mono">neeravjain91@gmail.com</span> with
+                rate limiting and anti-spam validation.
+              </p>
             </div>
           </div>
 
@@ -185,9 +157,9 @@ export const ContactForm: React.FC = () => {
                 <h4 className="text-lg font-bold text-white">
                   Message Dispatched Successfully!
                 </h4>
-                <p className="text-xs text-slate-300 max-w-md mx-auto">
-                  Thank you for reaching out. Your inquiry has been stored in the
-                  inbox ledger and Neerav will review it promptly.
+                <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
+                  Thank you for reaching out. Your inquiry has been forwarded directly to
+                  Neerav’s primary inbox at <span className="font-mono text-cyan-300">neeravjain91@gmail.com</span>.
                 </p>
                 <button
                   type="button"
@@ -199,6 +171,39 @@ export const ContactForm: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Error Banner */}
+                {errorMessage && (
+                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-2.5 text-xs text-rose-300 animate-in fade-in">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
+                    <div className="flex-1 leading-relaxed">
+                      <span>{errorMessage}</span>{" "}
+                      <a
+                        href={`mailto:neeravjain91@gmail.com?subject=${encodeURIComponent(
+                          subject || "Portfolio Contact"
+                        )}&body=${encodeURIComponent(message)}`}
+                        className="underline text-rose-200 font-semibold hover:text-white"
+                      >
+                        Click here to email directly
+                      </a>
+                      .
+                    </div>
+                  </div>
+                )}
+
+                {/* Honeypot field (hidden from real users, caught by bots) */}
+                <div style={{ display: "none" }} aria-hidden="true">
+                  <label htmlFor="company_fax">Company Fax</label>
+                  <input
+                    id="company_fax"
+                    type="text"
+                    name="company_fax"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-slate-300 mb-1.5">
@@ -258,7 +263,7 @@ export const ContactForm: React.FC = () => {
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-[11px] text-slate-500">
-                    * Required fields • Preserved client ledger
+                    * Required fields • Server-side spam & rate protected
                   </span>
                   <button
                     type="submit"
@@ -283,15 +288,6 @@ export const ContactForm: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Admin Inbox Modal */}
-      <AdminInboxModal
-        isOpen={showAdminModal}
-        onClose={() => setShowAdminModal(false)}
-        messages={messages}
-        onDeleteMessage={handleDeleteMessage}
-        onClearAll={handleClearAll}
-      />
     </div>
   );
 };

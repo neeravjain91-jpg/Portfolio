@@ -148,8 +148,17 @@ export default function HomePage() {
                 className="px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition-all flex items-center gap-2"
               >
                 <FileText className="w-4 h-4 text-cyan-400" />
-                <span>Download CV</span>
+                <span>View CV</span>
               </button>
+
+              <a
+                href="/Neerav_Jain_Resume.pdf"
+                download="Neerav_Jain_Resume.pdf"
+                className="px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-200 hover:text-cyan-300 bg-white/[0.03] hover:bg-cyan-500/10 border border-white/10 hover:border-cyan-500/30 transition-all flex items-center gap-2"
+              >
+                <Download className="w-4 h-4 text-emerald-400" />
+                <span>Download Resume</span>
+              </a>
 
               <a
                 href="#contact"
@@ -400,27 +409,14 @@ Production Deployment & Systems Engineering (FastAPI / Next.js, WebGL Telemetry,
                   <p className="text-xs text-slate-400 mb-4">
                     {cat.description}
                   </p>
-                  <div className="space-y-2">
+                  <div className="flex flex-wrap gap-2">
                     {cat.skills.map((skill) => (
-                      <div
+                      <span
                         key={skill.name}
-                        className="flex items-center justify-between p-2 rounded-lg bg-black/40 border border-white/5 text-xs"
+                        className="text-xs font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-200 hover:border-cyan-500/30 transition-colors"
                       >
-                        <span className="text-slate-200 font-medium">
-                          {skill.name}
-                        </span>
-                        <span
-                          className={`text-[10px] font-mono px-2 py-0.5 rounded ${
-                            skill.level === "Expert"
-                              ? "bg-cyan-500/20 text-cyan-300"
-                              : skill.level === "Advanced"
-                              ? "bg-emerald-500/20 text-emerald-300"
-                              : "bg-slate-500/20 text-slate-300"
-                          }`}
-                        >
-                          {skill.level}
-                        </span>
-                      </div>
+                        {skill.name}
+                      </span>
                     ))}
                   </div>
                 </div>
