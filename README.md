@@ -1,9 +1,13 @@
 # Neerav Jain — Personal Engineering Portfolio
 
-[![Production Build](https://img.shields.io/badge/Build-Passing%20(Next.js%2014)-success.svg)](https://github.com/neeravjain91-jpg)
+[![Live Production Portfolio](https://img.shields.io/badge/Production%20Portfolio-neerav--jain--portfolio.vercel.app-000000.svg?style=for-the-badge&logo=vercel)](https://neerav-jain-portfolio.vercel.app)
+[![Production Build](https://img.shields.io/badge/Build-Passing%20(Next.js%2014)-success.svg)](https://github.com/neeravjain91-jpg/Portfolio)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4+-blue.svg)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4+-38bdf8.svg)](https://tailwindcss.com/)
 [![Verified Deployments](https://img.shields.io/badge/Live%20Deployments-5%20Verified%20(HTTP%20200)-emerald.svg)](#-verified-live-deployments)
+
+> **Live Production URL**: [https://neerav-jain-portfolio.vercel.app](https://neerav-jain-portfolio.vercel.app)  
+> **Authoritative GitHub Repository**: [https://github.com/neeravjain91-jpg/Portfolio](https://github.com/neeravjain91-jpg/Portfolio)
 
 A premium, production-ready personal developer portfolio engineered for **Neerav Jain** (Applied Machine Learning Engineer & Systems Researcher). Showcases all 24 audited GitHub projects, 5+ verified live cloud deployments, empirical benchmark tables, test suites (>500 passing tests), and scientific research protocols in one centralized, high-performance platform.
 
