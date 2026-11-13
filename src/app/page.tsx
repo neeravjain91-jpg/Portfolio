@@ -3,94 +3,49 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
-  Activity,
   ArrowRight,
   Award,
-  BookOpen,
-  Briefcase,
   CheckCircle2,
   Code2,
   Cpu,
   Download,
   ExternalLink,
-  Eye,
+  FileCheck,
   FileText,
   Flame,
+  GitBranch,
   Github,
+  Globe,
   GraduationCap,
   Layers,
+  LineChart,
   Mail,
   Plane,
   Radar,
   Server,
+  ShieldAlert,
   ShieldCheck,
   Sparkles,
   Terminal,
-  TestTube,
   Waves,
 } from "lucide-react";
 import { PROFILE_DATA } from "@/data/profile";
-import { FEATURED_PROJECTS } from "@/data/projects";
+import { CENTRALIZED_DEPLOYMENTS, FEATURED_PROJECTS } from "@/data/projects";
 import { ProjectDirectory } from "@/components/ProjectDirectory";
 import { ContactForm } from "@/components/ContactForm";
 import { ResumeModal } from "@/components/ResumeModal";
 import { LiveDeploymentBadge } from "@/components/LiveDeploymentBadge";
 
+const ICON_MAP: Record<string, any> = {
+  "aeropulse-x": Plane,
+  "ocean-subsurface-ml": Waves,
+  "wildfire-intelligence": Flame,
+  "signature-vmake": ShieldCheck,
+  "bank-statement-extractor": Server,
+};
+
 export default function HomePage() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-
-  const verifiedDeployments = [
-    {
-      title: "AeroPulse-X Tactical GCS & 3D Twin",
-      subtitle: "MALE-UAV Engine Propulsion Digital Twin (SIH26054)",
-      url: "https://aeropulse-test.vercel.app",
-      status: 200,
-      tech: "FastAPI • Three.js WebGL • TCN + HistGradientBoosting",
-      metric: "99.81% Syn. Acc • 308 Passed Tests",
-      icon: Plane,
-      color: "cyan",
-    },
-    {
-      title: "Subsurface Ocean Temperature ML",
-      subtitle: "B8 Spatiotemporal Embedding Network across 15 Depths",
-      url: "https://code-gules-three.vercel.app",
-      status: 200,
-      tech: "PyTorch • xarray • 7 Satellite Streams",
-      metric: "0.9800 °C RMSE • 22.11% Gain over Climatology",
-      icon: Waves,
-      color: "sky",
-    },
-    {
-      title: "Wildfire Spatiotemporal Intelligence",
-      subtitle: "Multimodal Risk Prediction with FIRMS & NOAA DEM",
-      url: "https://major-forest-fire.vercel.app",
-      status: 200,
-      tech: "Python 3.11 • LightGBM • LOGRO CV",
-      metric: "0.8920 LOGRO ROC-AUC • 60 Passed Tests",
-      icon: Flame,
-      color: "amber",
-    },
-    {
-      title: "SYNAPSE Biometric Signature Verification",
-      subtitle: "Siamese ResNet-18 Biometric Fraud Risk Assessment",
-      url: "https://signature-v-five.vercel.app",
-      status: 200,
-      tech: "PyTorch ResNet-18 • 3NF PostgreSQL/SQLite",
-      metric: "4.82% Unseen Writer EER • 53 Passed Tests",
-      icon: ShieldCheck,
-      color: "violet",
-    },
-    {
-      title: "Bank Statement Table Extraction",
-      subtitle: "Bank Muscat BRD Series Coordinate Geometry Engine",
-      url: "https://mayank-ten-indol.vercel.app",
-      status: 200,
-      tech: "FastAPI • PyMuPDF • DistilBERT NLI",
-      metric: "99.10% Table Recall • 41 Passed Tests",
-      icon: Server,
-      color: "emerald",
-    },
-  ];
 
   return (
     <div className="relative">
@@ -103,13 +58,13 @@ export default function HomePage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center space-y-6 max-w-4xl mx-auto">
-            {/* Live Status Pill */}
+            {/* Authentic Academic & Role Positioning Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono bg-white/[0.04] border border-white/10 text-slate-300 shadow-sm backdrop-blur-md">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span>Available for Applied ML Engineering & Systems Research</span>
+              <span>B.Tech CSE (AI & ML) Student • ABES Engineering College</span>
               <span className="text-slate-600">•</span>
               <span className="text-emerald-400 font-semibold">5+ Verified Live Deployments</span>
             </div>
@@ -121,17 +76,26 @@ export default function HomePage() {
 
             {/* Sub-headline / Mission */}
             <p className="text-sm sm:text-base lg:text-lg text-slate-300 max-w-3xl leading-relaxed">
-              I build <strong>physics-informed machine learning models, spatiotemporal forecasting systems, biometric computer vision pipelines, and production AI platforms</strong>. Zero fabricated metrics, strict chronological purge-buffering, and <strong>over 500 passing automated tests</strong> across verified live architectures.
+              Applied machine learning engineer and systems researcher. I build <strong>physics-informed neural modeling pipelines, spatiotemporal Earth observation systems, biometric computer vision architectures, and production-oriented AI platforms</strong> with verified live cloud deployments.
             </p>
 
-            {/* CTA Buttons */}
+            {/* Prominent Action Links */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <a
                 href="#projects"
                 className="px-6 py-3 rounded-xl text-xs sm:text-sm font-semibold text-black bg-cyan-400 hover:bg-cyan-300 transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2 group"
               >
-                <span>Explore Major Projects</span>
+                <span>Explore Projects</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+
+              <a
+                href="/Neerav_Jain_Resume.pdf"
+                download="Neerav_Jain_Resume.pdf"
+                className="px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-200 hover:text-cyan-300 bg-white/[0.04] hover:bg-cyan-500/10 border border-white/10 hover:border-cyan-500/30 transition-all flex items-center gap-2"
+              >
+                <Download className="w-4 h-4 text-emerald-400" />
+                <span>Download Resume</span>
               </a>
 
               <Link
@@ -142,6 +106,16 @@ export default function HomePage() {
                 <span>Live Deployments (5)</span>
               </Link>
 
+              <a
+                href="https://github.com/neeravjain91-jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition-all flex items-center gap-2"
+              >
+                <Github className="w-4 h-4 text-cyan-400" />
+                <span>GitHub</span>
+              </a>
+
               <button
                 type="button"
                 onClick={() => setIsResumeOpen(true)}
@@ -150,15 +124,6 @@ export default function HomePage() {
                 <FileText className="w-4 h-4 text-cyan-400" />
                 <span>View CV</span>
               </button>
-
-              <a
-                href="/Neerav_Jain_Resume.pdf"
-                download="Neerav_Jain_Resume.pdf"
-                className="px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-200 hover:text-cyan-300 bg-white/[0.03] hover:bg-cyan-500/10 border border-white/10 hover:border-cyan-500/30 transition-all flex items-center gap-2"
-              >
-                <Download className="w-4 h-4 text-emerald-400" />
-                <span>Download Resume</span>
-              </a>
 
               <a
                 href="#contact"
@@ -185,13 +150,13 @@ export default function HomePage() {
 
               <div className="glass-panel rounded-xl p-4 text-center border border-white/5">
                 <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400">
-                  500+
+                  568
                 </div>
                 <div className="text-[11px] font-mono text-slate-400 mt-1 uppercase tracking-wider">
-                  Automated Tests Passed
+                  Repository Pytest Tests
                 </div>
                 <div className="text-[10px] text-slate-500 font-mono mt-0.5">
-                  0 Regressions (100%)
+                  Across 5 Project Suites
                 </div>
               </div>
 
@@ -215,7 +180,7 @@ export default function HomePage() {
                   UAV Twin Fault Accuracy
                 </div>
                 <div className="text-[10px] text-amber-400/80 font-mono mt-0.5">
-                  Rotax 914 Turbo (SIH)
+                  Rotax 914 ODE Simulation
                 </div>
               </div>
             </div>
@@ -230,7 +195,7 @@ export default function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 mb-2">
                 <Radar className="w-3.5 h-3.5" />
-                <span>Real-Time Cloud Telemetry</span>
+                <span>Verified Cloud Telemetry</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                 Verified Live Deployments
@@ -249,8 +214,8 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {verifiedDeployments.map((dep) => {
-              const Icon = dep.icon;
+            {CENTRALIZED_DEPLOYMENTS.map((dep) => {
+              const Icon = ICON_MAP[dep.slug] || Globe;
               return (
                 <div
                   key={dep.title}
@@ -271,14 +236,14 @@ export default function HomePage() {
                       {dep.title}
                     </h3>
                     <p className="text-xs text-slate-400 mt-1 mb-3">
-                      {dep.subtitle}
+                      {dep.role}
                     </p>
                     <div className="p-2.5 rounded-lg bg-black/40 border border-white/5 space-y-1 mb-4">
                       <div className="text-[11px] font-mono text-cyan-300">
-                        {dep.metric}
+                        {dep.empiricalMetric}
                       </div>
                       <div className="text-[10px] font-mono text-slate-400 truncate">
-                        {dep.tech}
+                        {dep.runtime} • {dep.latencyMs}ms
                       </div>
                     </div>
                   </div>
@@ -392,7 +357,7 @@ Production Deployment & Systems Engineering (FastAPI / Next.js, WebGL Telemetry,
               Technical Tooling Matrix
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 mt-2">
-              Demonstrated mastery across theoretical modeling, deep learning architectures, geospatial data assimilation, and high-reliability systems engineering.
+              Demonstrated competencies across theoretical modeling, deep learning architectures, geospatial data assimilation, and high-reliability systems engineering.
             </p>
           </div>
 
@@ -400,10 +365,10 @@ Production Deployment & Systems Engineering (FastAPI / Next.js, WebGL Telemetry,
             {PROFILE_DATA.skillCategories.map((cat) => (
               <div
                 key={cat.title}
-                className="glass-panel rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 transition-all flex flex-col justify-between"
+                className="glass-panel rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 transition-all space-y-4"
               >
                 <div>
-                  <h3 className="font-bold text-sm text-white mb-1">
+                  <h3 className="text-base font-bold text-white tracking-tight">
                     {cat.title}
                   </h3>
                   <p className="text-xs text-slate-400 mb-4">
@@ -426,49 +391,49 @@ Production Deployment & Systems Engineering (FastAPI / Next.js, WebGL Telemetry,
         </div>
       </section>
 
-      {/* 6. INDUSTRY EXPERIENCE & ACADEMIC EDUCATION */}
-      <section id="experience" className="py-20 border-t border-white/10 bg-[#06090f]/60">
+      {/* 6. EXPERIENCE & EDUCATION */}
+      <section id="experience" className="py-20 border-t border-white/10 bg-[#06090f]/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Experience Column */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 mb-3">
-                <Briefcase className="w-3.5 h-3.5" />
-                <span>Industrial Experience</span>
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-cyan-400 bg-cyan-500/10 border border-cyan-500/30">
+                <Layers className="w-3.5 h-3.5" />
+                <span>Industry Experience</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-6">
-                Work & Traineeship Track
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Work History & Traineeships
               </h2>
 
-              <div className="space-y-6">
-                {PROFILE_DATA.experience.map((exp) => (
+              <div className="space-y-4">
+                {PROFILE_DATA.experience.map((exp, idx) => (
                   <div
-                    key={exp.role}
+                    key={idx}
                     className="glass-panel rounded-2xl p-6 border border-white/10 space-y-3"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                      <h3 className="font-bold text-white text-sm sm:text-base">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <h3 className="font-bold text-white text-base">
                         {exp.role}
                       </h3>
-                      <span className="text-xs font-mono text-cyan-400">
+                      <span className="text-xs font-mono text-cyan-300 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 w-fit">
                         {exp.period}
                       </span>
                     </div>
                     <div className="text-xs text-slate-300 font-medium">
                       {exp.organization} • {exp.location} ({exp.type})
                     </div>
-                    <ul className="list-disc list-inside text-xs text-slate-400 space-y-1 leading-relaxed">
-                      {exp.highlights.map((h, i) => (
-                        <li key={i}>{h}</li>
+                    <ul className="list-disc list-inside text-xs text-slate-300 space-y-1.5 pt-1">
+                      {exp.highlights.map((h, hIdx) => (
+                        <li key={hIdx}>{h}</li>
                       ))}
                     </ul>
                     <div className="flex flex-wrap gap-1.5 pt-2">
-                      {exp.technologies.map((tech) => (
+                      {exp.technologies.map((t) => (
                         <span
-                          key={tech}
-                          className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/5"
+                          key={t}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 text-slate-400 border border-white/5"
                         >
-                          {tech}
+                          {t}
                         </span>
                       ))}
                     </div>
@@ -478,81 +443,53 @@ Production Deployment & Systems Engineering (FastAPI / Next.js, WebGL Telemetry,
             </div>
 
             {/* Education Column */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 mb-3">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
                 <GraduationCap className="w-3.5 h-3.5" />
                 <span>Academic Foundation</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-6">
-                Degrees & Qualifications
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Education & Research Focus
               </h2>
 
-              <div className="space-y-6">
-                {PROFILE_DATA.education.map((edu) => (
+              <div className="space-y-4">
+                {PROFILE_DATA.education.map((edu, idx) => (
                   <div
-                    key={edu.degree}
+                    key={idx}
                     className="glass-panel rounded-2xl p-6 border border-white/10 space-y-3"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                      <h3 className="font-bold text-white text-sm sm:text-base">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <h3 className="font-bold text-white text-base">
                         {edu.degree} — {edu.field}
                       </h3>
-                      <span className="text-xs font-mono text-emerald-400">
+                      <span className="text-xs font-mono text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 w-fit">
                         {edu.period}
                       </span>
                     </div>
                     <div className="text-xs text-slate-300 font-medium">
                       {edu.institution}, {edu.location}
                     </div>
-                    <ul className="list-disc list-inside text-xs text-slate-400 space-y-1 leading-relaxed">
-                      {edu.details.map((d, i) => (
-                        <li key={i}>{d}</li>
+                    <ul className="list-disc list-inside text-xs text-slate-300 space-y-1.5 pt-1">
+                      {edu.details.map((d, dIdx) => (
+                        <li key={dIdx}>{d}</li>
                       ))}
                     </ul>
                   </div>
                 ))}
-
-                {/* Additional Honors block */}
-                <div className="glass-panel rounded-2xl p-6 border border-white/10 bg-cyan-500/[0.03]">
-                  <h3 className="font-bold text-white text-xs uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-cyan-400" />
-                    <span>Competitive Milestones</span>
-                  </h3>
-                  <div className="space-y-2.5 text-xs">
-                    <div className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                      <span className="text-slate-300">
-                        <strong>Smart India Hackathon (SIH26054)</strong> — Lead Researcher on MALE-UAV Engine Digital Twin.
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                      <span className="text-slate-300">
-                        <strong>Amazon ML Challenge 2026</strong> — Team DeepResolve ER Finalist (Macro F0.5: 0.81172).
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                      <span className="text-slate-300">
-                        <strong>Bank Muscat BRD Series</strong> — Enterprise Biometric Signature Verification and Statement Extraction deliverable creator.
-                      </span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. CONTACT & INBOX SECTION */}
+      {/* 7. CONTACT & INQUIRIES */}
       <section id="contact" className="py-20 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ContactForm />
         </div>
       </section>
 
-      {/* Resume Modal */}
+      {/* Accessible Interactive Resume Modal */}
       <ResumeModal
         isOpen={isResumeOpen}
         onClose={() => setIsResumeOpen(false)}

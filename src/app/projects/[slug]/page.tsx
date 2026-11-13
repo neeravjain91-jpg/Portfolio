@@ -4,11 +4,10 @@ import { notFound } from "next/navigation";
 import {
   FEATURED_PROJECTS,
   getProjectBySlug,
-  ProjectItem,
 } from "@/data/projects";
 import {
+  AlertTriangle,
   ArrowLeft,
-  Award,
   CheckCircle2,
   Code2,
   Cpu,
@@ -23,6 +22,7 @@ import {
   Sparkles,
   Terminal,
   TestTube,
+  UserCheck,
 } from "lucide-react";
 import { LiveDeploymentBadge } from "@/components/LiveDeploymentBadge";
 import { Metadata } from "next";
@@ -49,6 +49,15 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   return {
     title: `${project.title} — ${project.subtitle} | Neerav Jain`,
     description: project.summary,
+    alternates: {
+      canonical: `/projects/${project.slug}`,
+    },
+    openGraph: {
+      title: `${project.title} | Neerav Jain`,
+      description: project.summary,
+      url: `https://neerav-jain-portfolio.vercel.app/projects/${project.slug}`,
+      type: "article",
+    },
   };
 }
 
@@ -93,7 +102,7 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
           {project.testSuite && (
             <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
               <TestTube className="w-3.5 h-3.5" />
-              <span>{project.testSuite.passed} Tests Passed (0 Regressions)</span>
+              <span>{project.testSuite.passed} Automated Tests in Repository</span>
             </div>
           )}
         </div>
@@ -135,6 +144,20 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
             <ExternalLink className="w-3 h-3 text-slate-400" />
           </a>
         </div>
+      </div>
+
+      {/* Dedicated Section: My Individual Contribution */}
+      <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-cyan-500/30 bg-cyan-950/10 space-y-4">
+        <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm uppercase tracking-wider">
+          <UserCheck className="w-4 h-4" />
+          <span>My Individual Contribution</span>
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+          Role & Engineering Ownership
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+          {project.myContribution}
+        </p>
       </div>
 
       {/* Grid: Problem Statement vs Solution Architecture */}
@@ -248,6 +271,20 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
         </div>
       )}
 
+      {/* Scientific Validation & Leakage Safe Protocol */}
+      <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
+        <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm uppercase tracking-wider">
+          <ShieldCheck className="w-4 h-4" />
+          <span>Scientific Protocol & Zero Data Leakage</span>
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+          Partitioning & Experimental Hygiene
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          {project.scientificValidationProtocol}
+        </p>
+      </div>
+
       {/* Empirical Evaluation & Benchmarks */}
       {project.benchmarksTable && (
         <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
@@ -298,6 +335,74 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
         </div>
       )}
 
+      {/* Specialized Table: Depth-Wise Errors for Ocean Subsurface */}
+      {project.depthWiseErrors && project.depthWiseErrors.length > 0 && (
+        <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
+          <div className="flex items-center gap-2 text-sky-400 font-bold text-sm uppercase tracking-wider">
+            <LineChart className="w-4 h-4" />
+            <span>Vertical Stratum Error Distribution (0–1000m)</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            Depth-Wise Reconstruction Performance vs. Daily Climatology
+          </h2>
+          <div className="overflow-x-auto pt-2">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/[0.02] text-slate-400 font-mono text-[11px]">
+                  <th className="py-3 px-4 font-semibold">Oceanic Depth Strata</th>
+                  <th className="py-3 px-4 font-semibold">B8 Test RMSE</th>
+                  <th className="py-3 px-4 font-semibold">Relative Gain vs. Climatology (B1)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 font-mono">
+                {project.depthWiseErrors.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-3 px-4 font-sans font-medium text-white">{row.depth}</td>
+                    <td className="py-3 px-4 text-cyan-300 font-bold">{row.rmse}</td>
+                    <td className="py-3 px-4 text-emerald-400 font-bold">+{row.gainVsClimatology}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Specialized Table: Candidate Blocking vs Matching for Amazon ML */}
+      {project.blockingVsMatching && project.blockingVsMatching.length > 0 && (
+        <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
+          <div className="flex items-center gap-2 text-violet-400 font-bold text-sm uppercase tracking-wider">
+            <LineChart className="w-4 h-4" />
+            <span>Candidate Blocking vs. Pairwise Matching Metrics</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            Stage-by-Stage Search Space Reduction & Macro F0.5 Evolution
+          </h2>
+          <div className="overflow-x-auto pt-2">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/[0.02] text-slate-400 font-mono text-[11px]">
+                  <th className="py-3 px-4 font-semibold">Pipeline Iteration</th>
+                  <th className="py-3 px-4 font-semibold">Candidate Recall</th>
+                  <th className="py-3 px-4 font-semibold">Pair Space Reduction</th>
+                  <th className="py-3 px-4 font-semibold">Validation Macro F0.5</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 font-mono">
+                {project.blockingVsMatching.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-3 px-4 font-sans font-medium text-white">{row.stage}</td>
+                    <td className="py-3 px-4 text-slate-200">{row.candidateRecall}</td>
+                    <td className="py-3 px-4 text-emerald-400">{row.reductionRatio}</td>
+                    <td className="py-3 px-4 text-cyan-300 font-bold">{row.f05}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {/* Primary Metrics Summary */}
       {project.evaluationMetrics && project.evaluationMetrics.length > 0 && (
         <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
@@ -333,19 +438,50 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
         </div>
       )}
 
-      {/* Scientific Validation & Leakage Safe Protocol */}
-      <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
-        <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm uppercase tracking-wider">
-          <ShieldCheck className="w-4 h-4" />
-          <span>Scientific Protocol & Zero Data Leakage</span>
+      {/* Limitations and Failure Cases */}
+      {project.limitationsAndFailureCases && project.limitationsAndFailureCases.length > 0 && (
+        <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-amber-500/30 bg-amber-950/10 space-y-4">
+          <div className="flex items-center gap-2 text-amber-400 font-bold text-sm uppercase tracking-wider">
+            <AlertTriangle className="w-4 h-4" />
+            <span>Limitations & Failure Modes</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            Scientific Boundary Conditions & Failure Modes
+          </h2>
+          <ul className="space-y-3 pt-2">
+            {project.limitationsAndFailureCases.map((lim, idx) => (
+              <li
+                key={idx}
+                className="p-3.5 rounded-xl bg-black/40 border border-white/5 flex items-start gap-3 text-xs sm:text-sm text-slate-300"
+              >
+                <div className="w-5 h-5 rounded bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center shrink-0 mt-0.5">
+                  {idx + 1}
+                </div>
+                <span className="leading-relaxed">{lim}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-          Partitioning & Experimental Hygiene
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          {project.scientificValidationProtocol}
-        </p>
-      </div>
+      )}
+
+      {/* Reproduction & Verification Instructions */}
+      {project.reproductionInstructions && (
+        <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm uppercase tracking-wider">
+              <Terminal className="w-4 h-4" />
+              <span>Independent Reproduction Guide</span>
+            </div>
+            <span className="text-[11px] font-mono text-slate-500">Self-Contained Verification</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            How to Clone, Install, and Run Tests
+          </h2>
+          <pre className="text-xs font-mono text-slate-200 bg-black/60 p-5 rounded-xl border border-white/5 overflow-x-auto leading-relaxed whitespace-pre-wrap">
+            {project.reproductionInstructions}
+          </pre>
+        </div>
+      )}
 
       {/* Highlights & Innovations */}
       <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 space-y-4">
@@ -412,7 +548,7 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
       <div className="p-8 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-surface to-blue-950/40 border border-cyan-500/30 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
           <h3 className="text-lg font-bold text-white">
-            Experience the live system in action
+            Experience the system or inspect the source
           </h3>
           <p className="text-xs text-slate-300 mt-1">
             Access verified deployments or inspect the codebase on GitHub.

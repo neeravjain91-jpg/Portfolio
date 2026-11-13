@@ -178,7 +178,14 @@ test.describe("Portfolio End-to-End Suite", () => {
     const bodyHoneypot = await resHoneypot.json();
     expect(bodyHoneypot.error).toContain("Automated submission rejected");
 
-    // E. Unconfigured RESEND_API_KEY handling (returns 503 instead of false success)
+    // E. Content-Type rejection for non-JSON requests
+    const resBadType = await request.post("/api/contact", {
+      headers: { "Content-Type": "text/plain" },
+      data: "hello world",
+    });
+    expect(resBadType.status()).toBe(415);
+
+    // F. Unconfigured RESEND_API_KEY handling (returns 503 instead of false success)
     const resValidNoKey = await request.post("/api/contact", {
       data: {
         name: "Valid Recruiter",
@@ -204,7 +211,7 @@ test.describe("Portfolio End-to-End Suite", () => {
         contentType: "application/json",
         body: JSON.stringify({
           success: true,
-          message: "Your message has been delivered to Neerav's inbox.",
+          message: "Message submitted successfully. Your inquiry has been accepted by the email dispatch service.",
           id: "msg_mock_test_12345",
         }),
       });
@@ -248,7 +255,8 @@ test.describe("Portfolio End-to-End Suite", () => {
     await page.getByRole("button", { name: /Send Message/i }).click();
 
     // Verify error banner is shown with clickable mailto fallback
-    await expect(page.getByText("Domain unverified")).toBeVisible();
+    await expect(page.locator("#contact_error_banner")).toBeVisible();
+    await expect(page.locator("#contact_error_banner")).toContainText("Domain unverified");
     const mailtoLink = page.locator('a[href^="mailto:neeravjain91@gmail.com"]');
     await expect(mailtoLink.first()).toBeVisible();
   });

@@ -1,0 +1,30 @@
+name: External Deployments Health Check
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # Daily at 04:00 UTC
+  workflow_dispatch:
+
+jobs:
+  healthcheck:
+    name: Probe Live Endpoints & Verify Status
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Deployments Health Probe
+        run: python scripts/check_deployments.py
+
+      - name: Upload Health Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployments-health-report
+          path: scripts/deployments_health.json
+          retention-days: 30

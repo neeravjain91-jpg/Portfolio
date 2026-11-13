@@ -29,6 +29,16 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { name: "Overview", href: "/#overview" },
     { name: "Projects", href: "/#projects" },
@@ -66,7 +76,7 @@ export const Navbar: React.FC = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1 text-sm">
+        <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-1 text-sm">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -116,6 +126,8 @@ export const Navbar: React.FC = () => {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-2 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.06]"
           aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-menu"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -123,7 +135,12 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0a0e17]/95 backdrop-blur-xl border-b border-white/10 px-4 pt-2 pb-6 space-y-1 shadow-2xl">
+        <div
+          id="mobile-nav-menu"
+          role="navigation"
+          aria-label="Mobile navigation"
+          className="md:hidden bg-[#0a0e17]/95 backdrop-blur-xl border-b border-white/10 px-4 pt-2 pb-6 space-y-1 shadow-2xl"
+        >
           {navLinks.map((link) => (
             <Link
               key={link.name}

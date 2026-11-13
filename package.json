@@ -10,6 +10,7 @@
     "test": "playwright test"
   },
   "dependencies": {
+    "@upstash/redis": "^1.41.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
@@ -20,6 +21,7 @@
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.65.0",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.3",
